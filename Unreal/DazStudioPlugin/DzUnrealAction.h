@@ -17,6 +17,7 @@ public:
 
 protected:
 	 int Port;
+     int NonInteractiveMode;
 	 DzUnrealSubdivisionDialog* SubdivisionDialog;
 
 	 void executeAction();
@@ -25,4 +26,6 @@ protected:
 	 QUuid WriteInstance(DzNode* Node, DzJsonWriter& Writer, QUuid ParentID);
 	 void WriteConfiguration();
 	 void SetExportOptions(DzFileIOSettings& ExportOptions);
+     int getNonInteractiveMode();
+     void setNonInteractiveMode(int);
 };

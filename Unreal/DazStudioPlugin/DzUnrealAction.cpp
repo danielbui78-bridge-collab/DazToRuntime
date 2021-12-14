@@ -56,51 +56,53 @@ void DzUnrealAction::executeAction()
 	 // Create and show the dialog. If the user cancels, exit early,
 	 // otherwise continue on and do the thing that required modal
 	 // input from the user.
+     if (getNonInteractiveMode() > 0) {
 
-	 if (dzScene->getNumSelectedNodes() != 1)
-	 {
-		  QMessageBox::warning(0, tr("Error"),
-				tr("Please select one Character or Prop to send."), QMessageBox::Ok);
-		  return;
-	 }
+         if (dzScene->getNumSelectedNodes() != 1)
+         {
+             QMessageBox::warning(0, tr("Error"),
+                 tr("Please select one Character or Prop to send."), QMessageBox::Ok);
+             return;
+         }
 
-	 // Create the dialog
-	 DzUnrealDialog* dlg = new DzUnrealDialog(mw);
+         // Create the dialog
+         DzUnrealDialog* dlg = new DzUnrealDialog(mw);
 
-	 // If the Accept button was pressed, start the export
-	 if (dlg->exec() == QDialog::Accepted)
-	 {
-		 // Collect the values from the dialog fields
-		 CharacterName = dlg->assetNameEdit->text();
-		 ImportFolder = dlg->intermediateFolderEdit->text();
-		 CharacterFolder = ImportFolder + "\\" + CharacterName + "\\";
-		 CharacterFBX = CharacterFolder + CharacterName + ".fbx";
-		 CharacterBaseFBX = CharacterFolder + CharacterName + "_base.fbx";
-		 CharacterHDFBX = CharacterFolder + CharacterName + "_HD.fbx";
-		 AssetType = dlg->assetTypeCombo->currentText().replace(" ", "");
-		 MorphString = dlg->GetMorphString();
-		 Port = dlg->portEdit->text().toInt();
-		 ExportMorphs = dlg->morphsEnabledCheckBox->isChecked();
-		 ExportSubdivisions = dlg->subdivisionEnabledCheckBox->isChecked();
-		 MorphMapping = dlg->GetMorphMapping();
-		 ShowFbxDialog = dlg->showFbxDialogCheckBox->isChecked();
-		 ExportMaterialPropertiesCSV = dlg->exportMaterialPropertyCSVCheckBox->isChecked();
-		 SubdivisionDialog = DzUnrealSubdivisionDialog::Get(dlg);
-		 FBXVersion = dlg->fbxVersionCombo->currentText();
+         // If the Accept button was pressed, start the export
+         if (dlg->exec() == QDialog::Accepted)
+         {
+             // Collect the values from the dialog fields
+             CharacterName = dlg->assetNameEdit->text();
+             ImportFolder = dlg->intermediateFolderEdit->text();
+             CharacterFolder = ImportFolder + "\\" + CharacterName + "\\";
+             CharacterFBX = CharacterFolder + CharacterName + ".fbx";
+             CharacterBaseFBX = CharacterFolder + CharacterName + "_base.fbx";
+             CharacterHDFBX = CharacterFolder + CharacterName + "_HD.fbx";
+             AssetType = dlg->assetTypeCombo->currentText().replace(" ", "");
+             MorphString = dlg->GetMorphString();
+             Port = dlg->portEdit->text().toInt();
+             ExportMorphs = dlg->morphsEnabledCheckBox->isChecked();
+             ExportSubdivisions = dlg->subdivisionEnabledCheckBox->isChecked();
+             MorphMapping = dlg->GetMorphMapping();
+             ShowFbxDialog = dlg->showFbxDialogCheckBox->isChecked();
+             ExportMaterialPropertiesCSV = dlg->exportMaterialPropertyCSVCheckBox->isChecked();
+             SubdivisionDialog = DzUnrealSubdivisionDialog::Get(dlg);
+             FBXVersion = dlg->fbxVersionCombo->currentText();
 
-		 if (AssetType == "SkeletalMesh" && ExportSubdivisions)
-		 {
-			 // export base mesh
-			 ExportBaseMesh = true;
-			 SubdivisionDialog->LockSubdivisionProperties(false);
-			 Export();
-		 }
+             if (AssetType == "SkeletalMesh" && ExportSubdivisions)
+             {
+                 // export base mesh
+                 ExportBaseMesh = true;
+                 SubdivisionDialog->LockSubdivisionProperties(false);
+                 Export();
+             }
 
-		 ExportBaseMesh = false;
-		 SubdivisionDialog->LockSubdivisionProperties(ExportSubdivisions);
-		 Export();
+             ExportBaseMesh = false;
+             SubdivisionDialog->LockSubdivisionProperties(ExportSubdivisions);
+             Export();
 
-	 }
+         }
+     }
 }
 
 void DzUnrealAction::WriteConfiguration()
@@ -435,5 +437,12 @@ QUuid DzUnrealAction::WriteInstance(DzNode* Node, DzJsonWriter& Writer, QUuid Pa
 
 	return Uid;
 }
+void DzUnrealAction::setNonInteractiveMode(int mode) {
+    this->NonInteractiveMode = mode;
+}
+int DzUnrealAction::getNonInteractiveMode() {
+    return this->NonInteractiveMode;
+}
+
 
 #include "moc_DzUnrealAction.cpp"
