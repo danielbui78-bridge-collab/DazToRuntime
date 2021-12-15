@@ -57,13 +57,13 @@ void DzUnrealAction::executeAction()
 	 // otherwise continue on and do the thing that required modal
 	 // input from the user.
     bool nonInteractiveFlag = getNonInteractiveMode();
-
-    if (dzScene->getNumSelectedNodes() != 1 && !nonInteractiveFlag)
-    {
-        QMessageBox::warning(0, tr("Error"),
-            tr("Please select one Character or Prop to send."), QMessageBox::Ok);
-        return;
-    }
+    if (getNonInteractiveMode() < 0 || getNonInteractiveMode() > 1) {
+        if (dzScene->getNumSelectedNodes() != 1 && !nonInteractiveFlag)
+        {
+            QMessageBox::warning(0, tr("Error"),
+                tr("Please select one Character or Prop to send."), QMessageBox::Ok);
+            return;
+        }
 
         // Create the dialog
         DzUnrealDialog* dlg = new DzUnrealDialog(mw);
@@ -102,6 +102,7 @@ void DzUnrealAction::executeAction()
             Export();
 
         }
+    }
 }
 
 void DzUnrealAction::WriteConfiguration()
