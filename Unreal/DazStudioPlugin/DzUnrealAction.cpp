@@ -31,7 +31,7 @@ DzUnrealAction::DzUnrealAction() :
 {
 	 Port = 0;
 	 SubdivisionDialog = nullptr;
-     NonInteractiveMode = 1;
+     NonInteractiveMode = 0;
 	 //Setup Icon
 	 QString iconName = "icon";
 	 QPixmap basePixmap = QPixmap::fromImage(getEmbeddedImage(iconName.toLatin1()));
