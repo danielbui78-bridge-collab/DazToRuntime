@@ -1,0 +1,13 @@
+{
+	"RemapUnityFiles": 
+	{
+		"Module.DazToUnrealDeveloper.cpp.obj": [
+			"AnimGraphNode_DazMorphDriver.cpp.obj",
+			"DazToUnrealDeveloper.cpp.obj"
+		],
+		"Module.DazToUnrealDeveloper.gen.cpp.obj": [
+			"AnimGraphNode_DazMorphDriver.gen.cpp.obj",
+			"DazToUnrealDeveloper.init.gen.cpp.obj"
+		]
+	}
+}

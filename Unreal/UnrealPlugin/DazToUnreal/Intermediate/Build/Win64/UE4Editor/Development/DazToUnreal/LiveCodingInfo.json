@@ -1,0 +1,24 @@
+{
+	"RemapUnityFiles": 
+	{
+		"Module.DazToUnreal.cpp.obj": [
+			"DazToUnreal.cpp.obj",
+			"DazToUnrealCommands.cpp.obj",
+			"DazToUnrealEnvironment.cpp.obj",
+			"DazToUnrealFactory.cpp.obj",
+			"DazToUnrealFbx.cpp.obj",
+			"DazToUnrealMaterials.cpp.obj",
+			"DazToUnrealMorphs.cpp.obj",
+			"DazToUnrealPoses.cpp.obj",
+			"DazToUnrealStyle.cpp.obj",
+			"DazToUnrealSubdivision.cpp.obj",
+			"DazToUnrealTextures.cpp.obj",
+			"DazToUnrealUtils.cpp.obj"
+		],
+		"Module.DazToUnreal.gen.cpp.obj": [
+			"DazToUnreal.init.gen.cpp.obj",
+			"DazToUnrealFactory.gen.cpp.obj",
+			"DazToUnrealSettings.gen.cpp.obj"
+		]
+	}
+}

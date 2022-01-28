@@ -1,0 +1,14 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UE4Editor-DazToUnrealRuntime.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"C:\Users\qasim\Documents\Unreal Projects\MyProject6\Intermediate\Build\Win64\MyProject6Editor\Development\Engine\SharedPCH.Engine.ShadowErrors.h.obj"
+"C:\Users\qasim\Documents\Unreal Projects\MyProject6\Plugins\DazToUnreal\Intermediate\Build\Win64\UE4Editor\Development\DazToUnrealRuntime\Module.DazToUnrealRuntime.cpp.obj"
+"C:\Users\qasim\Documents\Unreal Projects\MyProject6\Plugins\DazToUnreal\Intermediate\Build\Win64\UE4Editor\Development\DazToUnrealRuntime\Module.DazToUnrealRuntime.gen.cpp.obj"
+"C:\Users\qasim\Documents\Unreal Projects\MyProject6\Plugins\DazToUnreal\Intermediate\Build\Win64\UE4Editor\Development\DazToUnrealRuntime\Default.rc2.res"
+/OUT:"C:\Users\qasim\Documents\Unreal Projects\MyProject6\Plugins\DazToUnreal\Intermediate\Build\Win64\UE4Editor\Development\DazToUnrealRuntime\UE4Editor-DazToUnrealRuntime.lib"
+/INCLUDE:IMPLEMENT_MODULE_DazToUnrealRuntime
