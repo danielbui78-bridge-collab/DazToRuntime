@@ -451,7 +451,7 @@ UObject* FDazToUnrealModule::ImportFromDaz(TSharedPtr<FJsonObject> JsonObject)
 	 // Use the maps file to find the textures to load
 	 TMap<FString, FString> TextureFileSourceToTarget;
 	 TArray<FString> IntermediateMaterials;
-
+	 
 	 TArray<TSharedPtr<FJsonValue>> matList = JsonObject->GetArrayField(TEXT("Materials"));
 	 for (int32 i = 0; i < matList.Num(); i++)
 	 {
