@@ -210,6 +210,7 @@ UMaterialInstanceConstant* FDazToUnrealMaterials::CreateMaterial(const FString C
 	
 	FString ShaderName = "";
 	FString AssetType = "";
+	bool OOTFound = false;
 	if (MaterialProperties.Contains(MaterialName))
 	{
 		TArray<FDUFTextureProperty> Properties = MaterialProperties[MaterialName];
@@ -220,6 +221,10 @@ UMaterialInstanceConstant* FDazToUnrealMaterials::CreateMaterial(const FString C
 				AssetType = Property.Value;
 				ShaderName = Property.ShaderName;
 			}
+            if (Property.ShaderName == TEXT("OOT Hairblending Hair"))
+            {
+                OOTFound = true;
+            }
 		}
 	}
 	FString Seperator;
@@ -373,15 +378,11 @@ UMaterialInstanceConstant* FDazToUnrealMaterials::CreateMaterial(const FString C
 		//BaseMaterialAssetPath = CachedSettings->NoDrawMaterial;
 	}
     //code addition
+    //code addition
     FString str = "10.0";
-    TArray<FDUFTextureProperty> Properties = MaterialProperties[MaterialName];
-    for (FDUFTextureProperty Property : Properties)
-    {
-        if (Property.ShaderName == TEXT("OOT Hairblending Hair"))
-        {
-            SetMaterialProperty(MaterialName, TEXT("Transparency Offset"), TEXT("Double"), str, MaterialProperties);
-            UE_LOG(LogTemp, Warning, TEXT("OOT Hairblending shader detected and fixed."));
-        }
+    if (OOTFound) {
+        SetMaterialProperty(MaterialName, TEXT("Transparency Offset"), TEXT("Double"), str, MaterialProperties);
+        UE_LOG(LogTemp, Warning, TEXT("OOT Hairblending shader detected and fixed for material %s"), *MaterialName);
     }
 	// Create the Material Instance
 	auto MaterialInstanceFactory = NewObject<UMaterialInstanceConstantFactoryNew>();
