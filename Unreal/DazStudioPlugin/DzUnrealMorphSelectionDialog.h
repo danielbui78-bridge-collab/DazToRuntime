@@ -2,6 +2,7 @@
 #include "dzbasicdialog.h"
 #include <QtGui/qlineedit.h>
 #include <QtGui/qcombobox.h>
+#include <QtGui/qcheckbox.h>
 #include <QtCore/qsettings.h>
 #include "dznode.h"
 
@@ -11,6 +12,7 @@ class QTreeWidget;
 class QTreeWidgetItem;
 class QLineEdit;
 class QComboBox;
+class QCheckBox;
 
 struct MorphInfo {
 	 QString Name;
@@ -36,18 +38,34 @@ struct MorphInfo {
 	 }
 };
 
+struct JointLinkKey
+{
+	int Angle;
+	int Value;
+};
+
+struct JointLinkInfo
+{
+	QString Bone;
+	QString Axis;
+	QString Morph;
+	double Scalar;
+	double Alpha;
+	QList<JointLinkKey> Keys;
+};
+
 class DzUnrealMorphSelectionDialog : public DzBasicDialog {
 	 Q_OBJECT
 public:
 
-	 DzUnrealMorphSelectionDialog(QWidget* parent);
+	 DzUnrealMorphSelectionDialog(QWidget* parent=nullptr);
 	 virtual ~DzUnrealMorphSelectionDialog() {}
 
 	 // Setup the dialog
-	 void PrepareDialog();
+	 Q_INVOKABLE void PrepareDialog();
 
 	 // Singleton access
-	 static DzUnrealMorphSelectionDialog* Get(QWidget* Parent)
+	 Q_INVOKABLE static DzUnrealMorphSelectionDialog* Get(QWidget* Parent)
 	 {
 		  if (singleton == nullptr)
 		  {
@@ -58,15 +76,23 @@ public:
 	 }
 
 	 // Get the morph string in the format for the Daz FBX Export
-	 QString GetMorphString();
+	 Q_INVOKABLE QString GetMorphString();
 
 	 // Get the morph string in the format used for presets
-	 QString GetMorphCSVString();
+	 Q_INVOKABLE QString GetMorphCSVString();
 
 	 // Get the morph string in an internal name = friendly name format
 	 // Used to rename them to the friendly name in Unreal
-	 QMap<QString, QString> GetMorphRenaming();
+	 Q_INVOKABLE QMap<QString, QString> GetMorphRenaming();
 
+	 Q_INVOKABLE bool IsAutoJCMEnabled() { return autoJCMCheckBox->isChecked(); }
+
+	 // Recursive function for finding all active JCM morphs for a node
+	 Q_INVOKABLE QList<JointLinkInfo> GetActiveJointControlledMorphs(DzNode* Node = nullptr);
+
+	 // Retrieve label based on morph name
+	 // DB Dec-21-2021, Created for scripting.
+	 Q_INVOKABLE QString GetMorphLabelFromName(QString morphName);
 
 public slots:
 	 void FilterChanged(const QString& filter);
@@ -80,6 +106,7 @@ public slots:
 	 void HandleTorsoJCMMorphsButton();
 	 void HandleARKitGenesis81MorphsButton();
 	 void HandleFaceFXGenesis8Button();
+	 void HandleAutoJCMCheckBoxChange(bool checked);
 
 private:
 
@@ -88,6 +115,9 @@ private:
 
 	 // Recursive function for finding all morphs for a node
 	 QStringList GetAvailableMorphs(DzNode* Node);
+
+	 //
+	 QList<JointLinkInfo> GetJointControlledMorphInfo(DzProperty* property);
 
 	 void UpdateMorphsTree();
 
@@ -141,4 +171,7 @@ private:
 
 	 QTreeWidgetItem* fullBodyMorphTreeItem;
 	 QTreeWidgetItem* charactersTreeItem;
+	 QCheckBox* autoJCMCheckBox;
+
+	 QSettings* settings;
 };
