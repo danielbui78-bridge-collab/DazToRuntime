@@ -64,7 +64,7 @@ FSoftObjectPath FDazToUnrealMaterials::GetBaseMaterial(FString MaterialName, TAr
 		BaseMaterialAssetPath = CachedSettings->BaseShaderMaterials[ShaderName];
 		//return BaseMaterialAssetPath;
 	}
-	
+
 	if (AssetType == TEXT("Follower/Hair"))
 	{
 		BaseMaterialAssetPath = CachedSettings->BaseHairMaterial;
@@ -165,7 +165,7 @@ FSoftObjectPath FDazToUnrealMaterials::GetBaseMaterial(FString MaterialName, TAr
 					BaseMaterialAssetPath = CachedSettings->BaseAlphaMaterial;
 				}
 			}
-			
+
 		}
 	}
 	else if (MaterialName.Contains(Seperator + TEXT("EyeMoisture")))
@@ -187,7 +187,7 @@ FSoftObjectPath FDazToUnrealMaterials::GetBaseMaterial(FString MaterialName, TAr
 				BaseMaterialAssetPath = CachedSettings->BaseAlphaMaterial;
 			}
 		}
-		
+
 	}
 	if (MaterialName.EndsWith(Seperator + TEXT("NoDraw")))
 	{
@@ -207,7 +207,7 @@ UMaterialInstanceConstant* FDazToUnrealMaterials::CreateMaterial(const FString C
 	{
 		BaseMaterialAssetPath = GetBaseMaterial(MaterialName, MaterialProperties[MaterialName]);
 	}
-	
+
 	FString ShaderName = "";
 	FString AssetType = "";
 	if (MaterialProperties.Contains(MaterialName))
@@ -381,7 +381,7 @@ UMaterialInstanceConstant* FDazToUnrealMaterials::CreateMaterial(const FString C
 	if (ShaderName == TEXT("OOT Hairblending Hair"))
 	{
         SetMaterialProperty(MaterialName, TEXT("Transparency Offset"), TEXT("Double"), transparencyOffsetCorrection, MaterialProperties);
-        UE_LOG(LogTemp, Warning, TEXT("OOT Hairblending shader detected and fixed for material %s"), *MaterialName);
+//      UE_LOG(LogTemp, Warning, TEXT("OOT Hairblending shader detected and fixed for material %s"), *MaterialName);
     }
 
 	// Create the Material Instance
@@ -492,7 +492,7 @@ UMaterialInstanceConstant* FDazToUnrealMaterials::CreateMaterial(const FString C
 			}
 		}
 	}
-	
+
 
 	return UnrealMaterialConstant;
 }
@@ -652,7 +652,7 @@ FString FDazToUnrealMaterials::GetMaterialProperty(const FString& PropertyName, 
 USubsurfaceProfile* FDazToUnrealMaterials::CreateSubsurfaceBaseProfileForCharacter(const FString CharacterMaterialFolder, TMap<FString, TArray<FDUFTextureProperty>>& MaterialProperties)
 {
 	const UDazToUnrealSettings* CachedSettings = GetDefault<UDazToUnrealSettings>();
-	
+
 	FString Seperator;
 	if ( CachedSettings->UseOriginalMaterialName)
 	{
