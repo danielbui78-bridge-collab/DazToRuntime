@@ -381,7 +381,11 @@ UMaterialInstanceConstant* FDazToUnrealMaterials::CreateMaterial(const FString C
 	if (ShaderName == TEXT("OOT Hairblending Hair"))
 	{
         SetMaterialProperty(MaterialName, TEXT("Transparency Offset"), TEXT("Double"), transparencyOffsetCorrection, MaterialProperties);
-//      UE_LOG(LogTemp, Warning, TEXT("OOT Hairblending shader detected and fixed for material %s"), *MaterialName);
+        //UE_LOG(LogTemp, Warning, TEXT("OOT Hairblending shader detected and fixed for material %s"), *MaterialName);
+    }
+    else if (MaterialName.Contains(TEXT("KentHair")) && !MaterialName.Contains(TEXT("Cap")) && ShaderName == TEXT("Iray Uber")) {
+        SetMaterialProperty(MaterialName, TEXT("Transparency Offset"), TEXT("Double"), transparencyOffsetCorrection, MaterialProperties);
+        UE_LOG(LogTemp, Warning, TEXT("Iray Uber shader detected and fixed for material %s"), *MaterialName);
     }
 
 	// Create the Material Instance
