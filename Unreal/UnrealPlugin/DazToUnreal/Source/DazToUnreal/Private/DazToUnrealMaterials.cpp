@@ -376,13 +376,40 @@ UMaterialInstanceConstant* FDazToUnrealMaterials::CreateMaterial(const FString C
 	////////////////////////////////////////////////////////
 	// Shader Corrections for specific Daz-Shaders
 	////////////////////////////////////////////////////////
-	// 2022-Jan-31 (Qasim B): Transparency Correction for OOT Hairblending Hair
-	FString transparencyOffsetCorrection = "10.0";
-	if (ShaderName == TEXT("OOT Hairblending Hair"))
+	double fGlobalTransparencyCorrection = 10.0;
+	if (ShaderName == TEXT("Iray Uber"))
 	{
-        SetMaterialProperty(MaterialName, TEXT("Transparency Offset"), TEXT("Double"), transparencyOffsetCorrection, MaterialProperties);
-//      UE_LOG(LogTemp, Warning, TEXT("OOT Hairblending shader detected and fixed for material %s"), *MaterialName);
-    }
+		double fIrayUberTransparencyCorrection = fGlobalTransparencyCorrection + 0.0;
+		FString transparencyOffsetCorrection = FString::SanitizeFloat(fIrayUberTransparencyCorrection);
+
+		// 2022-Feb-03 (Qasim B): Transparency Correction for Kent Hair
+		if (
+			( MaterialName.Contains(TEXT("KentHair")) && !MaterialName.Contains(TEXT("Cap")) )
+			|| ( MaterialName.Contains(TEXT("CapriScalp")) && !MaterialName.Contains(TEXT("_Scalp")) )
+			|| ( MaterialName.Contains(TEXT("BronwynHair")) && MaterialName.Contains(TEXT("_hair")) )
+			)
+		{
+			SetMaterialProperty(MaterialName, TEXT("Transparency Offset"), TEXT("Double"), transparencyOffsetCorrection, MaterialProperties);
+			//UE_LOG(LogTemp, Warning, TEXT("Iray Uber shader detected and fixed for material %s"), *MaterialName);
+		}
+
+	}
+	else if (ShaderName == TEXT("OOT Hairblending Hair"))
+	{
+		// 2022-Jan-31 (Qasim B): Transparency Correction for OOT Hairblending Hair
+		double fOOTTransparencyCorrection = fGlobalTransparencyCorrection + 0.0;
+		FString transparencyOffsetCorrection = FString::SanitizeFloat(fOOTTransparencyCorrection);
+		SetMaterialProperty(MaterialName, TEXT("Transparency Offset"), TEXT("Double"), transparencyOffsetCorrection, MaterialProperties);
+        //UE_LOG(LogTemp, Warning, TEXT("OOT Hairblending shader detected and fixed for material %s"), *MaterialName);
+
+	}
+
+	////////////////////////////////////////////////////////
+	// Shader Corrections for specific Daz-Materials
+	////////////////////////////////////////////////////////
+	//
+	// Place holder for Material-specific corections
+	//
 
 	// Create the Material Instance
 	auto MaterialInstanceFactory = NewObject<UMaterialInstanceConstantFactoryNew>();
