@@ -383,7 +383,26 @@ UMaterialInstanceConstant* FDazToUnrealMaterials::CreateMaterial(const FString C
         SetMaterialProperty(MaterialName, TEXT("Transparency Offset"), TEXT("Double"), transparencyOffsetCorrection, MaterialProperties);
 //      UE_LOG(LogTemp, Warning, TEXT("OOT Hairblending shader detected and fixed for material %s"), *MaterialName);
     }
+	else if (ShaderName == TEXT("Littlefox Hair Shader")) 
+	{
+		FString hexCorrection = "";
 
+		/*if (MaterialProperties.Contains(MaterialName)) 
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Executing For: %s"), *MaterialName);
+			for (FDUFTextureProperty Property : MaterialProperties[MaterialName])
+			{
+				UE_LOG(LogTemp, Warning, TEXT("M: %s P: %s"), *MaterialName, *Property.Name);
+				if (Property.Name == TEXT("LLF-BaseColor")) {
+					UE_LOG(LogTemp, Warning, TEXT("Entered LLF-BaseColor For: %s"), *MaterialName);
+					hexCorrection = Property.Value;
+					SetMaterialProperty(MaterialName, TEXT("Diffuse Color"), TEXT("Color"), hexCorrection, MaterialProperties);
+					break;
+				}
+			}
+		}*/
+		UE_LOG(LogTemp, Warning, TEXT("\n\n"));
+	}
 	// Create the Material Instance
 	auto MaterialInstanceFactory = NewObject<UMaterialInstanceConstantFactoryNew>();
 #if ENGINE_MAJOR_VERSION == 4 && ENGINE_MINOR_VERSION < 26
