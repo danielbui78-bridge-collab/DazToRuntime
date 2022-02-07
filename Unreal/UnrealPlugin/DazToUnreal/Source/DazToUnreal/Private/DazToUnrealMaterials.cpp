@@ -383,25 +383,48 @@ UMaterialInstanceConstant* FDazToUnrealMaterials::CreateMaterial(const FString C
         SetMaterialProperty(MaterialName, TEXT("Transparency Offset"), TEXT("Double"), transparencyOffsetCorrection, MaterialProperties);
 //      UE_LOG(LogTemp, Warning, TEXT("OOT Hairblending shader detected and fixed for material %s"), *MaterialName);
     }
-	else if (ShaderName == TEXT("Littlefox Hair Shader")) 
+	else if (ShaderName == TEXT("Littlefox Hair Shader"))
 	{
 		FString hexCorrection = "";
+		bool _materialFound = false;
 
-		/*if (MaterialProperties.Contains(MaterialName)) 
+
+		if (MaterialProperties.Contains(MaterialName))
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Executing For: %s"), *MaterialName);
+			// UE_LOG(LogTemp, Warning, TEXT("Executing For: %s"), *MaterialName);
 			for (FDUFTextureProperty Property : MaterialProperties[MaterialName])
 			{
-				UE_LOG(LogTemp, Warning, TEXT("M: %s P: %s"), *MaterialName, *Property.Name);
-				if (Property.Name == TEXT("LLF-BaseColor")) {
-					UE_LOG(LogTemp, Warning, TEXT("Entered LLF-BaseColor For: %s"), *MaterialName);
+				// UE_LOG(LogTemp, Warning, TEXT("M: %s P: %s"), *MaterialName, *Property.Name);
+				if (Property.Name == TEXT("LLF-BaseColor")) 
+				{
 					hexCorrection = Property.Value;
 					SetMaterialProperty(MaterialName, TEXT("Diffuse Color"), TEXT("Color"), hexCorrection, MaterialProperties);
+					_materialFound = true;
 					break;
 				}
 			}
-		}*/
-		UE_LOG(LogTemp, Warning, TEXT("\n\n"));
+		}
+
+		//If the property of the material was not found, do an extra check in the generalized base material
+		if (!_materialFound) 
+		{ 
+			FString baseMaterial = "";
+			TArray<FDUFTextureProperty> _properties = MaterialProperties[MaterialName]; 
+			baseMaterial = _properties[0].ObjectName + TEXT("_BaseMat"); //Always check Index 0 as Asset Type will always be there in case everything else is removed.
+
+			if (MaterialProperties.Contains(baseMaterial)) 
+			{
+				for (FDUFTextureProperty Property : MaterialProperties[baseMaterial]) 
+				{
+					if (Property.Name == TEXT("LLF-BaseColor")) 
+					{
+						hexCorrection = Property.Value;
+						SetMaterialProperty(MaterialName, TEXT("Diffuse Color"), TEXT("Color"), hexCorrection, MaterialProperties);
+						break;
+					}
+				}
+			}
+		}
 	}
 	// Create the Material Instance
 	auto MaterialInstanceFactory = NewObject<UMaterialInstanceConstantFactoryNew>();
